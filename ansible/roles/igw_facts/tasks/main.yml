@@ -1,0 +1,32 @@
+---
+# tasks file for igw_facts
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/resources.yml
+    name: resources
+    
+- name: "Import vars from from {{resources.var_dynamic_file}}"
+  include_vars:
+    file: vars/dynamic.yml
+    name: dynamic
+    
+- name: "Gather IGW facts."
+  ec2_vpc_igw_facts:
+    region: '{{resources.region}}'
+    filters:
+        "tag:Project": '{{resources.project}}'
+        "tag:Resource": "IGW"
+  register: igw_data
+  
+- name: "Removes IGW ID from file"
+  lineinfile:
+   state: absent
+   dest: "{{resources.var_dynamic_file}}"
+   regexp: "{{resources.igw_name}}"
+   
+- name: "Creates IGW ID in file"
+  lineinfile:
+   state: present
+   dest: '{{resources.var_dynamic_file}}'
+   line: '{{resources.igw_name}}: {{item.internet_gateway_id}}'
+  with_items: '{{igw_data.internet_gateways}}'  

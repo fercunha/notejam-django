@@ -1,0 +1,207 @@
+{
+    "Type": "AWS::IAM::Policy",
+    "Properties": {
+        "PolicyName": "AWS-CodePipeline-Service",
+        "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Action": [
+                        "s3:GetObject",
+                        "s3:GetObjectVersion",
+                        "s3:GetBucketVersioning"
+                    ],
+                    "Resource": "*",
+                    "Effect": "Allow"
+                },
+                {
+                    "Action": [
+                        "s3:PutObject"
+                    ],
+                    "Resource": [
+                        "arn:aws:s3:::codepipeline*",
+                        "arn:aws:s3:::elasticbeanstalk*"
+                    ],
+                    "Effect": "Allow"
+                },
+                {
+                    "Action": [
+                        "codecommit:CancelUploadArchive",
+                        "codecommit:GetBranch",
+                        "codecommit:GetCommit",
+                        "codecommit:GetUploadArchiveStatus",
+                        "codecommit:UploadArchive"
+                    ],
+                    "Resource": "*",
+                    "Effect": "Allow"
+                },
+                {
+                    "Action": [
+                        "codedeploy:CreateDeployment",
+                        "codedeploy:GetApplicationRevision",
+                        "codedeploy:GetDeployment",
+                        "codedeploy:GetDeploymentConfig",
+                        "codedeploy:RegisterApplicationRevision"
+                    ],
+                    "Resource": "*",
+                    "Effect": "Allow"
+                },
+                {
+                    "Action": [
+                        "elasticbeanstalk:*",
+                        "ec2:*",
+                        "elasticloadbalancing:*",
+                        "autoscaling:*",
+                        "cloudwatch:*",
+                        "s3:*",
+                        "sns:*",
+                        "cloudformation:*",
+                        "rds:*",
+                        "sqs:*",
+                        "ecs:*",
+                        "iam:PassRole"
+                    ],
+                    "Resource": "*",
+                    "Effect": "Allow"
+                },
+                {
+                    "Action": [
+                        "lambda:InvokeFunction",
+                        "lambda:ListFunctions"
+                    ],
+                    "Resource": "*",
+                    "Effect": "Allow"
+                },
+                {
+                    "Action": [
+                        "opsworks:CreateDeployment",
+                        "opsworks:DescribeApps",
+                        "opsworks:DescribeCommands",
+                        "opsworks:DescribeDeployments",
+                        "opsworks:DescribeInstances",
+                        "opsworks:DescribeStacks",
+                        "opsworks:UpdateApp",
+                        "opsworks:UpdateStack"
+                    ],
+                    "Resource": "*",
+                    "Effect": "Allow"
+                },
+                {
+                    "Action": [
+                        "cloudformation:CreateStack",
+                        "cloudformation:DeleteStack",
+                        "cloudformation:DescribeStacks",
+                        "cloudformation:UpdateStack",
+                        "cloudformation:CreateChangeSet",
+                        "cloudformation:DeleteChangeSet",
+                        "cloudformation:DescribeChangeSet",
+                        "cloudformation:ExecuteChangeSet",
+                        "cloudformation:SetStackPolicy",
+                        "cloudformation:ValidateTemplate",
+                        "iam:PassRole"
+                    ],
+                    "Resource": "*",
+                    "Effect": "Allow"
+                },
+                {
+                    "Action": [
+                        "codebuild:BatchGetBuilds",
+                        "codebuild:StartBuild"
+                    ],
+                    "Resource": "*",
+                    "Effect": "Allow"
+                }
+            ]
+        }
+    },
+    "Type": "AWS::IAM::Policy",
+    "Properties": {
+        "PolicyName": "ecsTaskExecutionRole",
+        "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "ecr:GetAuthorizationToken",
+                        "ecr:BatchCheckLayerAvailability",
+                        "ecr:GetDownloadUrlForLayer",
+                        "ecr:BatchGetImage",
+                        "logs:CreateLogStream",
+                        "logs:PutLogEvents"
+                    ],
+                    "Resource": "*"
+                }
+            ]
+        }
+    },
+    "Type": "AWS::IAM::Policy",
+    "Properties": {
+        "PolicyName": "CodeBuildBasePolicy-notejam-notejam-us-west-1",
+        "PolicyDocument": {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Resource": [
+                        "arn:aws:logs:us-west-1:851348844139:log-group:/aws/codebuild/notejam-notejam",
+                        "arn:aws:logs:us-west-1:851348844139:log-group:/aws/codebuild/notejam-notejam:*"
+                    ],
+                    "Action": [
+                        "logs:CreateLogGroup",
+                        "logs:CreateLogStream",
+                        "logs:PutLogEvents"
+                    ]
+                },
+                {
+                    "Effect": "Allow",
+                    "Resource": [
+                        "arn:aws:s3:::codepipeline-us-west-1-*"
+                    ],
+                    "Action": [
+                        "s3:PutObject",
+                        "s3:GetObject",
+                        "s3:GetObjectVersion"
+                    ]
+                },
+                {
+                    "Effect": "Allow",
+                    "Resource": [
+                        "arn:aws:codecommit:us-west-1:851348844139:notejam-notejam"
+                    ],
+                    "Action": [
+                        "codecommit:GitPull"
+                    ]
+                },
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "ec2:CreateNetworkInterface",
+                        "ec2:DescribeDhcpOptions",
+                        "ec2:DescribeNetworkInterfaces",
+                        "ec2:DeleteNetworkInterface",
+                        "ec2:DescribeSubnets",
+                        "ec2:DescribeSecurityGroups",
+                        "ec2:DescribeVpcs"
+                    ],
+                    "Resource": "*"
+                },
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "ec2:CreateNetworkInterfacePermission"
+                    ],
+                    "Resource": "arn:aws:ec2:us-west-1:851348844139:network-interface/*",
+                    "Condition": {
+                        "StringEquals": {
+                            "ec2:Subnet": [
+                                "arn:aws:ec2:us-west-1:851348844139:subnet/subnet-09d27f55"
+                            ],
+                            "ec2:AuthorizedService": "codebuild.amazonaws.com"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,34 @@
+---
+# tasks file for subnets_facts
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/resources.yml
+    name: resources
+    
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/dynamic.yml
+    name: dynamic
+    
+- name: "Gather Subnets facts."
+  ec2_vpc_subnet_facts:
+    region: '{{resources.region}}'
+    filters:
+      vpc-id: '{{dynamic.notejam_vpc}}'
+  register: subnet_data
+#- debug:
+#    var: subnet_data
+  
+- name: "Removes Subnet ID from file."
+  lineinfile:
+   state: absent
+   dest: '{{resources.var_dynamic_file}}'
+   regexp: '{{item.tags.Name}}'
+  with_items: '{{subnet_data.subnets}}'
+   
+- name: "Creates SG ID in file."
+  lineinfile:
+    state: present
+    dest: '{{resources.var_dynamic_file}}'
+    line: '{{item.tags.Name}}: {{item.subnet_id}}'
+  with_items: '{{subnet_data.subnets}}'  

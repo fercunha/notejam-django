@@ -1,0 +1,8 @@
+# Dynamic vars created from playbookes themselves.
+notejam_vpc: vpc-047c148c0f7d5ddca
+notejam_igw: igw-08f402318dcebae5e
+sub_ext_nv_1c: subnet-05ced1f1b7e43d25b
+sub_ext_nv_1a: subnet-0c358ae399a597067
+SG_MYSQL: sg-07878d58326ae11c2
+SG_HTTP: sg-0d33856fda2a5338a
+notejam-db-ext-1: notejam-db-ext-1.c5wfgkxoahsm.us-west-1.rds.amazonaws.com

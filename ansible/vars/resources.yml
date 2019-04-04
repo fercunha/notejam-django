@@ -1,0 +1,41 @@
+---
+
+# AWS resources definition
+
+project: notejam
+
+#General vars
+region: us-west-1
+var_dynamic_file: vars/dynamic.yml
+
+#VPC vars
+vpc_name: notejam_vpc
+vpc_cidr: 172.31.0.0/16
+sub_1a_cidr: 172.31.1.0/24
+sub_1b_cidr: 172.31.2.0/24
+sub_1c_cidr: 172.31.3.0/24
+sub_1d_cidr: 172.31.4.0/24
+# sub_1e_cidr: 172.31.5.0/24
+# sub_1f_cidr: 172.31.6.0/24
+igw_name: notejam_igw
+sg_http_name: SG_HTTP
+sg_db_name: SG_MYSQL
+
+#RDS vars
+rds_subnet_group_name: notejam-ext-subnet-group
+db_backup_retention: 1
+db_backup_window: 04:00-05:00
+db_engine: MySQL
+db_name: notejam
+db_instance_type: db.t2.micro
+db_multi_zone: no
+db_license_model: general-public-license
+db_username: administrator
+db_password: notejamforthewin
+db_publicly_accessible: yes
+db_size: 20
+db_instance_name: notejam-db-ext-1
+
+#ECS vars
+ecs_cluster: notejam
+alb_name: notejam-ext-alb

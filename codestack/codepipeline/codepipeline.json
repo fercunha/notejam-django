@@ -1,0 +1,93 @@
+{
+    "pipeline": {
+        "name": "notejam-notejam",
+        "roleArn": "arn:aws:iam::851348844139:role/AWS-CodePipeline-Service",
+        "artifactStore": {
+            "type": "S3",
+            "location": "codepipeline-us-west-1-264933022872"
+        },
+        "stages": [
+            {
+                "name": "Source",
+                "actions": [
+                    {
+                        "inputArtifacts": [],
+                        "name": "Source",
+                        "actionTypeId": {
+                            "category": "Source",
+                            "owner": "AWS",
+                            "version": "1",
+                            "provider": "CodeCommit"
+                        },
+                        "outputArtifacts": [
+                            {
+                                "name": "MyApp"
+                            }
+                        ],
+                        "configuration": {
+                            "PollForSourceChanges": "True",
+                            "BranchName": "master",
+                            "RepositoryName": "notejam-notejam"
+                        },
+                        "runOrder": 1
+                    }
+                ]
+            },
+            {
+                "name": "Build",
+                "actions": [
+                    {
+                        "inputArtifacts": [
+                            {
+                                "name": "MyApp"
+                            }
+                        ],
+                        "name": "CodeBuild",
+                        "actionTypeId": {
+                            "category": "Build",
+                            "owner": "AWS",
+                            "version": "1",
+                            "provider": "CodeBuild"
+                        },
+                        "outputArtifacts": [
+                            {
+                                "name": "MyAppBuild"
+                            }
+                        ],
+                        "configuration": {
+                            "ProjectName": "notejam-notejam"
+                        },
+                        "runOrder": 1
+                    }
+                ]
+            },
+            {
+                "name": "Staging",
+                "actions": [
+                    {
+                        "inputArtifacts": [
+                            {
+                                "name": "MyAppBuild"
+                            }
+                        ],
+                        "name": "notejam-notejam",
+                        "actionTypeId": {
+                            "category": "Deploy",
+                            "owner": "AWS",
+                            "version": "1",
+                            "provider": "ECS"
+                        },
+                        "outputArtifacts": [],
+                        "configuration": {
+                            "ClusterName": "notejam-notejam",
+                            "ServiceName": "notejam-notejam",
+                            "FileName": "imagedefinitions.json"
+                        },
+                        "runOrder": 1
+                    }
+                ]
+            }
+        ],
+        "version": 1
+    }
+}

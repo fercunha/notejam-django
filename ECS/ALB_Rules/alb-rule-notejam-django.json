@@ -1,0 +1,18 @@
+{
+    "ListenerArn": "arn:aws:elasticloadbalancing:us-west-1:851348844139:listener/app/notejam-ext-alb/d6d5a101844b49d4/7474599cc3e2fe93", 
+    "Conditions": [
+        {
+            "Field": "path-pattern", 
+            "Values": [
+                "/*"
+            ]
+        }
+    ], 
+    "Priority": 3, 
+    "Actions": [
+        {
+            "Type": "forward", 
+            "TargetGroupArn": "arn:aws:elasticloadbalancing:us-west-1:851348844139:targetgroup/notejam-django/5c5b6e73141120ed"
+        }
+    ]
+}

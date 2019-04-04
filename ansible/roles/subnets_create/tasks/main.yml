@@ -1,0 +1,95 @@
+---
+# tasks file for subnets_create
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/resources.yml
+    name: resources
+    
+- name: "Import vars from from {{resources.var_dynamic_file}}"
+  include_vars:
+    file: vars/dynamic.yml
+    name: dynamic
+    
+- name: "Create subnet in AZ A"
+  ec2_vpc_subnet:
+    az: us-west-1a
+    vpc_id: '{{dynamic.notejam_vpc}}'
+    cidr: '{{resources.sub_1a_cidr}}'
+    map_public: yes
+    region: '{{resources.region}}'
+    state: present
+    wait: yes
+    tags:
+      Project: '{{resources.project}}'
+      Resource: Subnet_1A
+      Name: sub_ext_nv_1a
+      
+# - name: "Create subnet in AZ B"
+#   ec2_vpc_subnet:
+#     az: us-west-1b
+#     vpc_id: '{{dynamic.notejam_vpc}}'
+#     cidr: '{{resources.sub_1b_cidr}}'
+#     map_public: yes
+#     region: '{{resources.region}}'
+#     state: present
+#     wait: yes
+#     tags:
+#       Project: '{{resources.project}}'
+#       Resource: Subnet_1B
+#       Name: sub_ext_nv_1b
+      
+- name: "Create subnet in AZ C"
+  ec2_vpc_subnet:
+    az: us-west-1c
+    vpc_id: '{{dynamic.notejam_vpc}}'
+    cidr: '{{resources.sub_1c_cidr}}'
+    map_public: yes
+    region: '{{resources.region}}'
+    state: present
+    wait: yes
+    tags:
+      Project: '{{resources.project}}'
+      Resource: Subnet_1C
+      Name: sub_ext_nv_1c
+      
+# - name: "Create subnet in AZ D"
+#   ec2_vpc_subnet:
+#     az: us-west-1d
+#     vpc_id: '{{dynamic.notejam_vpc}}'
+#     cidr: '{{resources.sub_1d_cidr}}'
+#     map_public: yes
+#     region: '{{resources.region}}'
+#     state: present
+#     wait: yes
+#     tags:
+#       Project: '{{resources.project}}'
+#       Resource: Subnet_1D
+#       Name: sub_ext_nv_1d
+      
+# - name: "Create subnet in AZ E"
+#   ec2_vpc_subnet:
+#     az: us-west-1e
+#     vpc_id: '{{dynamic.notejam_vpc}}'
+#     cidr: '{{resources.sub_1e_cidr}}'
+#     map_public: yes
+#     region: '{{resources.region}}'
+#     state: present
+#     wait: yes
+#     tags:
+#       Project: '{{resources.project}}'
+#       Resource: Subnet_1E
+#       Name: sub_ext_nv_1e
+      
+# - name: "Create subnet in AZ F"
+#   ec2_vpc_subnet:
+#     az: us-west-1f
+#     vpc_id: '{{dynamic.notejam_vpc}}'
+#     cidr: '{{resources.sub_1f_cidr}}'
+#     map_public: yes
+#     region: '{{resources.region}}'
+#     state: present
+#     wait: yes
+#     tags:
+#       Project: '{{resources.project}}'
+#       Resource: Subnet_1F
+#       Name: sub_ext_nv_1f

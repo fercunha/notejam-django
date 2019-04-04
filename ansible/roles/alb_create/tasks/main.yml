@@ -1,0 +1,49 @@
+---
+# tasks file for alb_create
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/resources.yml
+    name: resources
+    
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/dynamic.yml
+    name: dynamic
+    
+- name: "Create default Target Group notejam-default."
+  elb_target_group:
+    name: notejam-default
+    region: '{{resources.region}}'
+    protocol: http
+    port: 80
+    vpc_id: '{{dynamic.notejam_vpc}}'
+    state: present
+
+- name: "Create ALB."
+  elb_application_lb:
+    state: present
+    region: '{{resources.region}}'
+    name: '{{resources.alb_name}}'
+    security_groups:
+      - '{{dynamic.SG_HTTP}}'
+    subnets:
+      - '{{dynamic.sub_ext_nv_1a}}'
+      # - '{{dynamic.sub_ext_nv_1b}}'
+      - '{{dynamic.sub_ext_nv_1c}}'
+      # - '{{dynamic.sub_ext_nv_1d}}'
+      # - '{{dynamic.sub_ext_nv_1e}}'
+      # - '{{dynamic.sub_ext_nv_1f}}'
+    listeners:
+      # - Protocol: HTTPS
+      #   Port: 443
+      #   SslPolicy: ELBSecurityPolicy-2015-05
+      #   # Certificates:
+      #   #   - CertificateArn: arn:aws:acm:us-west-1:851348844139:certificate/f52523be-f318-4980-a7b6-23c188bc57c6
+      #   DefaultActions:
+      #     - Type: forward
+      #       TargetGroupName: notejam-default
+      - Protocol: HTTP
+        Port: 80
+        DefaultActions:
+          - Type: forward
+            TargetGroupName: notejam-default

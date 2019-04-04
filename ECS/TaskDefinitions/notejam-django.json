@@ -1,0 +1,56 @@
+{
+    "executionRoleArn": "arn:aws:iam::851348844139:role/ecsTaskExecutionRole",
+    "containerDefinitions": [
+        {
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                  "awslogs-group": "/ecs/notejam-django",
+                  "awslogs-region": "us-west-1",
+                  "awslogs-stream-prefix": "ecs"
+                }
+            },
+            "portMappings": [
+                {
+                    "hostPort": 8000,
+                    "protocol": "tcp",
+                    "containerPort": 8000
+                }
+            ],
+            "cpu": 128,
+            "environment": [
+                {
+                    "name": "DB_USER",
+                    "value": "administrator"
+                },
+                {
+                    "name": "DB_PASS",
+                    "value": "notejamforthewin"
+                },
+                {
+                    "name": "DB_HOST",
+                    "value": "notejam-db-ext-1.c5wfgkxoahsm.us-west-1.rds.amazonaws.com"
+                },
+                {
+                    "name": "DB_SCHEMA",
+                    "value": "notejam"
+                },
+                {
+                    "name": "DB_NAME",
+                    "value": "notejam"
+                }
+            ],
+            "memoryReservation": 256,
+            "image": "851348844139.dkr.ecr.us-west-1.amazonaws.com/notejam-django:latest",
+            "essential": true,
+            "name": "notejam-django"
+        }
+    ],
+    "family": "notejam-django",
+    "cpu": "256",
+    "memory": "512",
+    "requiresCompatibilities": [
+        "FARGATE"
+      ],
+      "networkMode": "awsvpc"
+}

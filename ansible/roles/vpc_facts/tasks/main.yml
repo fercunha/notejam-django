@@ -1,0 +1,26 @@
+---
+# tasks file for vpc_facts
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/resources.yml
+    name: resources
+    
+- name: "Gather VPC facts."
+  ec2_vpc_net_facts:
+    region: '{{resources.region}}'
+    filters:
+      "tag:Project": '{{resources.project}}'
+  register: vpc_data
+
+- name: "Removes VPC ID from file"
+  lineinfile:
+   state: absent
+   dest: "{{resources.var_dynamic_file}}"
+   regexp: "{{resources.vpc_name}}"
+   
+- name: "Creates VPC ID in file"
+  lineinfile:
+   state: present
+   dest: '{{resources.var_dynamic_file}}'
+   line: '{{resources.vpc_name}}: {{item.id}}'
+  with_items: '{{vpc_data.vpcs}}'

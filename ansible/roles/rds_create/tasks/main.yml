@@ -1,0 +1,50 @@
+---
+# tasks file for rds_create
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/resources.yml
+    name: resources
+    
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/dynamic.yml
+    name: dynamic
+    
+- rds_subnet_group:
+    state: present
+    name: '{{resources.rds_subnet_group_name}}'
+    description: "Subnet Group for external subnets."
+    region: '{{resources.region}}'
+    subnets:
+      - '{{dynamic.sub_ext_nv_1a}}'
+    #   - '{{dynamic.sub_ext_nv_1b}}'
+      - '{{dynamic.sub_ext_nv_1c}}'
+    #   - '{{dynamic.sub_ext_nv_1d}}'
+    #   - '{{dynamic.sub_ext_nv_1e}}'
+    #   - '{{dynamic.sub_ext_nv_1f}}'
+
+- name: "Create RDS MySQL"
+  rds:
+    instance_name: '{{resources.db_instance_name}}'
+    backup_retention: '{{resources.db_backup_retention}}'
+    backup_window: '{{resources.db_backup_window}}'
+    command: create
+    db_engine: '{{resources.db_engine}}'
+    db_name: '{{resources.db_name}}'
+    instance_type: '{{resources.db_instance_type}}'
+    license_model: '{{resources.db_license_model}}'
+    multi_zone: '{{resources.db_multi_zone}}'
+    username: '{{resources.db_username}}'
+    password: '{{resources.db_password}}'
+    publicly_accessible: '{{resources.db_publicly_accessible}}'
+    region: '{{resources.region}}'
+    vpc_security_groups: '{{dynamic.SG_MYSQL}}'
+    size: '{{resources.db_size}}'
+    subnet: '{{resources.rds_subnet_group_name}}'
+    wait: yes
+    wait_timeout: 3600
+    tags:
+      Project: '{{resources.project}}'
+      Resource: RDS_MySQL
+      Name: '{{resources.db_instance_name}}'
+    

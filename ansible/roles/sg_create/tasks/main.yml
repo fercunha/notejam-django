@@ -1,0 +1,57 @@
+---
+# tasks file for sg_create
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/resources.yml
+    name: resources
+    
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/dynamic.yml
+    name: dynamic
+
+- name: "Creates Secutiry Group for HTTP and SSH."
+  ec2_group:
+    description: "SG for remote access on HTTP and SSH."
+    name: '{{resources.sg_http_name}}'
+    region: '{{resources.region}}'
+    rules:
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 8000
+        to_port: 8000
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 443
+        to_port: 443    
+        cidr_ip: 0.0.0.0/0
+    state: present
+    vpc_id: '{{dynamic.notejam_vpc}}'
+    tags:
+      Project: '{{resources.project}}'
+      Resource: SecurityGroup
+      Name: '{{resources.sg_http_name}}'
+      
+- name: "Creates Secutiry Group for MySQL."
+  ec2_group:
+    description: "SG for remote access on MySQL."
+    name: '{{resources.sg_db_name}}'
+    region: '{{resources.region}}'
+    rules:
+      - proto: tcp
+        from_port: 3306
+        to_port: 3306
+        cidr_ip: 0.0.0.0/0
+    state: present
+    vpc_id: '{{dynamic.notejam_vpc}}'
+    tags:
+      Project: '{{resources.project}}'
+      Resource: SecurityGroup
+      Name: '{{resources.sg_db_name}}'

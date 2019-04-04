@@ -1,0 +1,32 @@
+---
+# tasks file for rds_facts
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/resources.yml
+    name: resources
+    
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/dynamic.yml
+    name: dynamic
+    
+- name: "Gather RDS facts."
+  rds_instance_facts:
+    region: '{{resources.region}}'
+    # filters:
+    #   "tag:Project": '{{resources.project}}'
+  register: rds_data
+  
+- name: "Removes RDS facts from file"
+  lineinfile:
+   state: absent
+   dest: "{{resources.var_dynamic_file}}"
+   regexp: "{{item.tags.Name}}"
+  with_items: '{{rds_data.instances}}'  
+   
+- name: "Creates RDS in file"
+  lineinfile:
+   state: present
+   dest: '{{resources.var_dynamic_file}}'
+   line: '{{item.tags.Name}}: {{item.endpoint.address}}'
+  with_items: '{{rds_data.instances}}'  

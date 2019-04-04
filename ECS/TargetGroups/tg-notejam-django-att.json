@@ -1,0 +1,13 @@
+{
+    "TargetGroupArn": "", 
+    "Attributes": [
+        {
+          "Value": "true",
+          "Key": "stickiness.enabled"
+        },
+        {
+            "Key": "stickiness.lb_cookie.duration_seconds",
+            "Value": "10800"
+        }
+    ]
+}

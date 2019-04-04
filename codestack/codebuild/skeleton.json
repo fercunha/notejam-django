@@ -1,0 +1,93 @@
+{
+    "name": "", 
+    "description": "", 
+    "source": {
+        "type": "GITHUB", 
+        "location": "", 
+        "gitCloneDepth": 0, 
+        "buildspec": "", 
+        "auth": {
+            "type": "OAUTH", 
+            "resource": ""
+        }, 
+        "reportBuildStatus": true, 
+        "insecureSsl": true, 
+        "sourceIdentifier": ""
+    }, 
+    "secondarySources": [
+        {
+            "type": "GITHUB", 
+            "location": "", 
+            "gitCloneDepth": 0, 
+            "buildspec": "", 
+            "auth": {
+                "type": "OAUTH", 
+                "resource": ""
+            }, 
+            "reportBuildStatus": true, 
+            "insecureSsl": true, 
+            "sourceIdentifier": ""
+        }
+    ], 
+    "artifacts": {
+        "type": "S3", 
+        "location": "", 
+        "path": "", 
+        "namespaceType": "NONE", 
+        "name": "", 
+        "packaging": "NONE", 
+        "overrideArtifactName": true, 
+        "encryptionDisabled": true, 
+        "artifactIdentifier": ""
+    }, 
+    "secondaryArtifacts": [
+        {
+            "type": "NO_ARTIFACTS", 
+            "location": "", 
+            "path": "", 
+            "namespaceType": "NONE", 
+            "name": "", 
+            "packaging": "NONE", 
+            "overrideArtifactName": true, 
+            "encryptionDisabled": true, 
+            "artifactIdentifier": ""
+        }
+    ], 
+    "cache": {
+        "type": "NO_CACHE", 
+        "location": ""
+    }, 
+    "environment": {
+        "type": "WINDOWS_CONTAINER", 
+        "image": "", 
+        "computeType": "BUILD_GENERAL1_MEDIUM", 
+        "environmentVariables": [
+            {
+                "name": "", 
+                "value": "", 
+                "type": "PLAINTEXT"
+            }
+        ], 
+        "privilegedMode": true, 
+        "certificate": ""
+    }, 
+    "serviceRole": "", 
+    "timeoutInMinutes": 0, 
+    "encryptionKey": "", 
+    "tags": [
+        {
+            "key": "", 
+            "value": ""
+        }
+    ], 
+    "vpcConfig": {
+        "vpcId": "", 
+        "subnets": [
+            ""
+        ], 
+        "securityGroupIds": [
+            ""
+        ]
+    }, 
+    "badgeEnabled": true
+}

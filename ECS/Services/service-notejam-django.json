@@ -1,0 +1,36 @@
+{
+    "cluster": "notejam",
+    "serviceName": "notejam-django",
+    "taskDefinition": "arn:aws:ecs:us-west-1:851348844139:task-definition/notejam-django",
+    "loadBalancers": [
+        {
+            "containerName": "notejam-django",
+            "loadBalancerName": "notejam-ext-alb",
+            "targetGroupArn": "arn:aws:elasticloadbalancing:us-west-1:851348844139:targetgroup/notejam-django/5c5b6e73141120ed",
+            "containerPort": 8000
+        }
+    ],
+    "serviceRegistries": [],
+    "desiredCount": 2,
+    "launchType": "FARGATE",
+    "platformVersion": "LATEST",
+    "deploymentConfiguration": {
+        "maximumPercent": 200,
+        "minimumHealthyPercent": 50
+    },
+    "placementStrategy": [],
+    "networkConfiguration": {
+        "awsvpcConfiguration": {
+            "subnets": [
+                "subnet-05ced1f1b7e43d25b",
+                "subnet-0c358ae399a597067"
+            ],
+            "securityGroups": [
+                "sg-0d33856fda2a5338a"
+            ],
+            "assignPublicIp": "ENABLED"
+        }
+    },
+    "healthCheckGracePeriodSeconds": 30,
+    "schedulingStrategy": "REPLICA"
+}

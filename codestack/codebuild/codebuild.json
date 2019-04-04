@@ -1,0 +1,34 @@
+{
+  "name": "notejam-notejam",
+  "source": {
+    "type": "CODECOMMIT",
+    "location": "https://git-codecommit.us-west-1.amazonaws.com/v1/repos/notejam-notejam"
+  },
+  "artifacts": {
+    "type": "NO_ARTIFACTS"
+  },
+  "environment": {
+    "type": "LINUX_CONTAINER",
+    "image": "aws/codebuild/docker:17.09.0",
+    "computeType": "BUILD_GENERAL1_SMALL",
+    "environmentVariables": [
+      {
+        "name": "AWS_DEFAULT_REGION",
+        "value": "us-west-1"
+      },
+      {
+        "name": "AWS_ACCOUNT_ID",
+        "value": "851348844139"
+      },
+      {
+        "name": "IMAGE_REPO_NAME",
+        "value": "notejam-notejam"
+      },
+      {
+        "name": "IMAGE_TAG",
+        "value": "latest"
+      }
+    ]
+  },
+  "serviceRole": "arn:aws:iam::851348844139:role/service-role/CodeBuildRole"
+}

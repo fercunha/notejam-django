@@ -1,0 +1,17 @@
+---
+# tasks file for ecs_create
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/resources.yml
+    name: resources
+    
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/dynamic.yml
+    name: dynamic
+    
+- name: "Create ECS Cluster."
+  ecs_cluster:
+    name: '{{resources.ecs_cluster}}'
+    region: '{{resources.region}}'
+    state: present

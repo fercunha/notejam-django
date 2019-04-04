@@ -1,0 +1,32 @@
+---
+# tasks file for sg_facts
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/resources.yml
+    name: resources
+    
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/dynamic.yml
+    name: dynamic
+    
+- name: "Gather Security Group facts."
+  ec2_group_facts:
+    region: '{{resources.region}}'
+    filters:
+      "tag:Project": '{{resources.project}}'
+  register: sg_data
+  
+- name: "Removes SG ID from file"
+  lineinfile:
+   state: absent
+   dest: "{{resources.var_dynamic_file}}"
+   regexp: "{{item.tags.Name}}"
+  with_items: '{{sg_data.security_groups}}'  
+   
+- name: "Creates SG ID in file"
+  lineinfile:
+   state: present
+   dest: '{{resources.var_dynamic_file}}'
+   line: '{{item.tags.Name}}: {{item.group_id}}'
+  with_items: '{{sg_data.security_groups}}'  

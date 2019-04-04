@@ -1,0 +1,17 @@
+{
+    "Name": "notejam-django", 
+    "Protocol": "HTTP", 
+    "Port": 80, 
+    "VpcId": "vpc-047c148c0f7d5ddca", 
+    "HealthCheckProtocol": "HTTP", 
+    "HealthCheckPort": "traffic-port", 
+    "HealthCheckPath": "/signin/", 
+    "HealthCheckIntervalSeconds": 15, 
+    "HealthCheckTimeoutSeconds": 5, 
+    "HealthyThresholdCount": 2, 
+    "UnhealthyThresholdCount": 10, 
+    "Matcher": {
+        "HttpCode": "200"
+    }, 
+    "TargetType": "ip"
+}

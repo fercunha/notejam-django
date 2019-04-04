@@ -1,0 +1,20 @@
+---
+# tasks file for igw_create
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/resources.yml
+    name: resources
+    
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/dynamic.yml
+    name: dynamic
+    
+- name: "Creates IGW for VPC {{resources.vpc_name}}"
+  ec2_vpc_igw:
+    region: '{{resources.region}}'
+    state: present
+    vpc_id: '{{dynamic.notejam_vpc}}'
+    tags:
+      Project: '{{resources.project}}'
+      Resource: IGW

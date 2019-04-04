@@ -1,0 +1,27 @@
+version: 0.2
+# env:
+#     variables:
+phases:
+    install:
+        commands:
+            - echo Installing necessary packages for the build.
+            - echo No package for now...
+    build:
+        commands:
+            - echo Build started on `date`
+            - pwd
+            - ls -l
+            - $(aws ecr get-login --no-include-email --region us-west-2)
+            - bash build.sh
+            - docker images | grep notejam
+    post_build:
+         commands:
+            - bash push.sh
+            - echo Build completed on `date`
+            - echo Starting the deploy!
+            - bash ecs-deploy.sh
+# artifacts:
+#     files:
+#         - '**/*'
+#     base-directory: 'dist'
+#     discard-paths: yes

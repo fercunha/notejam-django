@@ -1,0 +1,18 @@
+---
+# tasks file for vpc_create
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/resources.yml
+    name: resources
+    
+- name: "Setup VPC in '{{resources.region}}'"
+  ec2_vpc_net:
+    cidr_block: '{{resources.vpc_cidr}}'
+    name: '{{resources.vpc_name}}'
+    purge_cidrs: yes
+    region: '{{resources.region}}'
+    state: present
+    tags:
+      Project: '{{resources.project}}'
+      Resource: VPC
+      Name: '{{resources.vpc_name}}'

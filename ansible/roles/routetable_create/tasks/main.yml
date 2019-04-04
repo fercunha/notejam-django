@@ -1,0 +1,31 @@
+---
+# tasks file for routetable_create
+- name: "Import vars from from vars/resources.yml"
+  include_vars:
+    file: vars/resources.yml
+    name: resources
+    
+- name: "Import vars from from {{resources.var_dynamic_file}}"
+  include_vars:
+    file: vars/dynamic.yml
+    name: dynamic
+    
+- name: "Configure route table for VPC {{resources.vpc_name}}"
+  ec2_vpc_route_table:
+    region: '{{resources.region}}'
+    state: present
+    vpc_id: '{{dynamic.notejam_vpc}}'
+    subnets:
+      - '{{resources.sub_1a_cidr}}'
+      # - '{{resources.sub_1b_cidr}}'
+      - '{{resources.sub_1c_cidr}}'
+      # - '{{resources.sub_1d_cidr}}'
+      # - '{{resources.sub_1e_cidr}}'
+      # - '{{resources.sub_1f_cidr}}'
+    routes:
+      - dest: 0.0.0.0/0
+        gateway_id: '{{dynamic.notejam_igw}}'
+    tags:
+      Project: '{{resources.project}}'
+      Resource: RouteTable
+      Name: RT-EXT
